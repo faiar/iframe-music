@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+
+<html>
+  <head>
+    <title>Hola!</title>
+    <link rel="stylesheet" href="node_modules/bootstrap/dist/css/bootstrap.min.css" />
+    <style>
+      header.main-header {
+        height: 10vh;
+      }
+
+      iframe {
+        width: 100%;
+        height: 80vh;
+        border: none;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <header class="main-header">
+        <h1>Fuera del iframe</h1>
+        <audio controls autoplay loop>
+          <source src="http://www.largesound.com/ashborytour/sound/brobob.mp3" />
+        </audio>
+      </header>
+
+      <iframe src="website/index.html" onLoad="onIframeUrlChange()"></iframe>
+    </div>
+    <script src="node_modules/jquery/dist/jquery.min.js"></script>
+    <script>
+      var iframe = $('iframe');
+
+      (function init () {
+        initIframeSrcFromHash();
+      })();
+
+      function initIframeSrcFromHash () {
+        var location = window.location.hash.replace('#', '');
+        var noHashLocation = location.length === 0;
+        var locationIsRoot = location === '/';
+
+        if (noHashLocation || locationIsRoot) {
+          return;
+        }
+
+        iframe.attr('src', location);
+      }
+
+      function onIframeUrlChange(iframeUrl) {
+        var iframeUrl = iframe[0].contentWindow.location.pathname;
+
+        window.location.hash = iframeUrl;
+      }
+    </script>
+  </body>
+</html>
